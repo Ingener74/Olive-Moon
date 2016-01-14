@@ -1,10 +1,10 @@
 # encoding: utf8
 import sys
-from PySide.QtGui import QApplication, QWidget
+from PySide.QtGui import (QApplication, QWidget)
+from FullSunWindow import (Ui_FullSunWindow)
 
 # Icons from
 # http://findicons.com/pack/475/solar_system
-from FullSunWindow import Ui_FullSunWindow
 
 
 class Window(QWidget, Ui_FullSunWindow):
@@ -16,7 +16,7 @@ class Window(QWidget, Ui_FullSunWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    w = Window()
-    w.show()
+    window = Window()
+    window.show()
 
     app.exec_()
