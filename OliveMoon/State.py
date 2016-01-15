@@ -1,46 +1,47 @@
 # encoding: utf8
-from PySide.QtCore import QSize
+
+import random
+from PySide.QtCore import (QSize, QPoint)
+from PySide.QtGui import (QColor, QBrush, QPen)
+
+STATE_RADIUS = 5
 
 
 class State(object):
-    def __init__(self, name='Root', size=QSize(100, 80)):
+    def __init__(self, name='Root', size=QSize(100, 80), states=[]):
         self.name = name
-        self.states = []
+        self.__states = states
         self.transitions = []
         self.initial = False
+        self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
-        self.size = size
+        self.size = size if len(states) == 0 else QSize(
+                reduce(lambda res, s: res + s.size.width(), states, 0) + STATE_RADIUS * (len(states) + 1),
+                reduce(lambda res, s: res + s.size.height(), states, 0) + STATE_RADIUS * (len(states) + 1)
+        )
 
     def draw(self, painter, point):
+        painter.save()
 
-        m = .07
+        painter.setBrush(QBrush(self.background_color))
+        painter.setPen(QPen(QColor(0, 0, 0, 255)))
 
         x = point.x()
         y = point.y()
 
-        if len(self.states) == 0:
-            w = 100
-        else:
-            w = reduce(lambda res, s: res + s.size.width(), self.states, 0)
-            w += (w * m) * (len(self.states) + 1)
+        w = self.size.width()
+        h = self.size.height()
 
-        if len(self.states) == 0:
-            h = w * 0.8
-        else:
-            h = reduce(lambda res, s: res + s.size.height(), self.states, 0)
-            h += (w * m) * (len(self.states) + 1)
+        fm = painter.fontMetrics()
 
-        r = w * m
+        painter.drawRoundedRect(x, y, w, h, STATE_RADIUS, STATE_RADIUS)
+        painter.drawText(x + w - fm.width(self.name) - STATE_RADIUS / 2, y + fm.height() + STATE_RADIUS / 2, self.name)
 
-        painter.drawRoundedRect(x, y, w, h, r, r)
+        x += STATE_RADIUS
+        y += STATE_RADIUS
 
-        x += r
-        y += r
+        for i in self.__states:
+            i.draw(painter, QPoint(x, y))
+            y += STATE_RADIUS + i.size.height()
 
-        for i in self.states:
-            painter.drawRoundedRect(x, y, i.size.width(), i.size.height(), r, r)
-
-            # x += r + i.size.width()
-            y += r + i.size.height()
-
-
+        painter.restore()

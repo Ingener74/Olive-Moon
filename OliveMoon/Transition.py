@@ -2,12 +2,12 @@
 
 
 class Transition(object):
-    def __init__(self, **kwargs):
-        state = kwargs['state']
-        if 'condition' in kwargs:
-            condition = kwargs['condition']
+    def __init__(self, state, condition='', action=''):
+        self.state = state
+        self.condition = condition
+        self.action = action
 
-        if 'action' in kwargs:
-            action = kwargs['action']
+    def draw(self, painter):
+        pass
 
 
