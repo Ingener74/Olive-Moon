@@ -60,8 +60,8 @@ class State(object):
     #         s.draw_transitions(painter=painter)
 
     def dict(self):
-        return {'state': {
+        return {
             'name': self.name,
             'states': [s.dict() for s in self.__states],
             'transitions': [t.dict() for t in self.__transitions]
-        }}
+        }

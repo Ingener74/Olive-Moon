@@ -1,0 +1,23 @@
+
+#include "State.h"
+
+State::State(){
+    _state = new State;
+}
+
+State::~State(){
+    delete _state;
+}
+
+void State::onEnter(){
+}
+
+void State::onExit(){
+}
+
+void State::switchState(State* state){
+    if(_state)
+        _state->onExit();
+    _state = state;
+    _state->onEnter();
+}
