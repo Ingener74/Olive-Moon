@@ -17,13 +17,11 @@ class Transition(object):
         x = (parent_state.transition_point.x() + max(self.from_state.transition_point.x(),
                                                      self.to_state.transition_point.x())) / 2
 
+        painter.setBrush(QBrush(QColor(0, 0, 0, 0)))
         p1 = self.from_state.transition_point
         p2 = QPoint(x, self.from_state.transition_point.y())
         p3 = QPoint(x, self.to_state.transition_point.y())
         p4 = QPoint(self.to_state.transition_point.x(), self.to_state.transition_point.y())
-
-        painter.setBrush(QBrush(QColor(0, 0, 0, 0)))
-
         path = QPainterPath()
         path.moveTo(p1)
         path.cubicTo(p2, p3, p4)

@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>840</width>
-    <height>593</height>
+    <width>1184</width>
+    <height>739</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Полное солнце - программа для редактирования машины состояния</string>
+   <string>Full Sun - программа для редактирования машины состояния</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

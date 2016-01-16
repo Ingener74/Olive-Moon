@@ -4,13 +4,13 @@ import random
 from PySide.QtCore import (QSize, QPoint)
 from PySide.QtGui import (QColor, QBrush, QPen)
 
-STACK_OFFSET = 40
+STACK_OFFSET = 60
 
 STATE_RADIUS = 5
 
 
 class State(object):
-    def __init__(self, name='Root', size=QSize(100, 80), states=[], transitions=[]):
+    def __init__(self, name='Root', size=QSize(100, 80), states=[], transitions=[], on_enter='', on_exit=''):
         self.name = name
         self.__states = states
         self.__transitions = transitions
@@ -18,9 +18,12 @@ class State(object):
 
         states_ = STATE_RADIUS * (len(states) + 1)
         self.size = size if len(states) == 0 else QSize(
-                reduce(lambda res, s: res + s.size.width(), states, 0) + states_,
+                reduce(lambda res, s: res + s.size.width(), states, 0) + states_ + STACK_OFFSET,
                 reduce(lambda res, s: res + s.size.height(), states, 0) + states_
         )
+
+        self.on_enter = on_enter
+        self.on_exit = on_exit
 
         self.input_point = QPoint(0, 0)
         self.transition_point = QPoint(0, 0)
@@ -61,5 +64,7 @@ class State(object):
         return {
             'name': self.name,
             'states': [s.dict() for s in self.__states],
-            'transitions': [t.dict() for t in self.__transitions]
+            'transitions': [t.dict() for t in self.__transitions],
+            'on_enter': self.on_enter,
+            'on_exit': self.on_exit
         }

@@ -8,7 +8,6 @@ from PySide.QtGui import (QApplication, QWidget, QPainter)
 from OliveMoon import (Event, State, Transition)
 from UiFullSunWindow import (Ui_FullSunWindow)
 
-
 # Icons from
 # http://findicons.com/pack/475/solar_system
 
@@ -30,7 +29,16 @@ class FullSunWindow(QWidget, Ui_FullSunWindow):
 
         initial = State(name='Initial')
         test = State(name='Test')
-        complex = State(name='Complex', states=[State(name='Step1'), State(name='Step2'), State(name='Step3')])
+        step1 = State(name='Step1')
+        step2 = State(name='Step2')
+        step3 = State(name='Step3')
+        complex = State(name='Complex', states=[
+            step1, step2, step3
+        ], transitions=[
+            Transition(event=network, from_state=step1, to_state=step2),
+            Transition(event=network, from_state=step2, to_state=step3),
+            # Transition(event=network, from_state=step3, to_state=step1)
+        ])
         work_state = State(name='Work', states=[
             test,
             complex
@@ -44,10 +52,12 @@ class FullSunWindow(QWidget, Ui_FullSunWindow):
             work_state,
             end
         ], transitions=[
+            Transition(event=ui, from_state=initial, to_state=initial),
             Transition(event=keyboard, from_state=initial, to_state=work_state, condition='e.getKey() == 27',
                        action='workView->setCaption("Test");'),
             Transition(event=network, from_state=work_state, to_state=end, condition='e.getType() == QuitSignal',
-                       action='application->quit();')
+                       action='application->quit();'),
+            Transition(event=ui, from_state=initial, to_state=end)
         ])
 
         with open('StateMachine.json', 'w') as js:
