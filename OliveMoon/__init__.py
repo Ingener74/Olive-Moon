@@ -1,2 +1,5 @@
 # encoding: utf8
-__author__ = 'pavel'
+
+from State import State
+from Transition import Transition
+from Event import Event

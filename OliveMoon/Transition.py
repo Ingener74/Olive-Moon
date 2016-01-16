@@ -7,7 +7,11 @@ class Transition(object):
         self.condition = condition
         self.action = action
 
-    def draw(self, painter):
-        pass
+    def draw(self, painter, state):
+        painter.save()
+
+        painter.drawLine(state.transition_point, self.state.transition_point)
+
+        painter.restore()
 
 

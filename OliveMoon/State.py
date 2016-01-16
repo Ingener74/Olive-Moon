@@ -8,11 +8,10 @@ STATE_RADIUS = 5
 
 
 class State(object):
-    def __init__(self, name='Root', size=QSize(100, 80), states=[]):
+    def __init__(self, name='Root', size=QSize(100, 80), states=[], transitions=[]):
         self.name = name
         self.__states = states
-        self.transitions = []
-        self.initial = False
+        self.__transitions = transitions
         self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
         self.size = size if len(states) == 0 else QSize(
@@ -20,7 +19,9 @@ class State(object):
                 reduce(lambda res, s: res + s.size.height(), states, 0) + STATE_RADIUS * (len(states) + 1)
         )
 
-    def draw(self, painter, point):
+        self.transition_point = QPoint(0, 0)
+
+    def draw(self, painter, point=QPoint(0, 0)):
         painter.save()
 
         painter.setBrush(QBrush(self.background_color))
@@ -31,6 +32,8 @@ class State(object):
 
         w = self.size.width()
         h = self.size.height()
+
+        self.transition_point = QPoint(x + w, y + h / 2)
 
         fm = painter.fontMetrics()
 
@@ -44,4 +47,13 @@ class State(object):
             i.draw(painter, QPoint(x, y))
             y += STATE_RADIUS + i.size.height()
 
+        for s in self.__states:
+            s.draw_transitions(painter=painter)
+
         painter.restore()
+
+    def draw_transitions(self, painter):
+        for t in self.__transitions:
+            t.draw(painter, self)
+        for s in self.__states:
+            s.draw_transitions(painter=painter)
