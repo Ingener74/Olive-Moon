@@ -48,17 +48,20 @@ class State(object):
             s.draw(painter, QPoint(x, y))
             y += STATE_RADIUS + s.size.height()
 
+        for t in self.__transitions:
+            t.draw(painter)
+
         painter.restore()
 
-    def draw_transitions(self, painter):
-        for t in self.__transitions:
-            t.draw(painter, self)
-        for s in self.__states:
-            s.draw_transitions(painter=painter)
+    # def draw_transitions(self, painter):
+    #     for t in self.__transitions:
+    #         t.draw(painter, self)
+    #     for s in self.__states:
+    #         s.draw_transitions(painter=painter)
 
     def dict(self):
         return {'state': {
             'name': self.name,
             'states': [s.dict() for s in self.__states],
-            'transitions': []
+            'transitions': [t.dict() for t in self.__transitions]
         }}

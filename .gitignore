@@ -1,3 +1,8 @@
+/Samples/build/Makefile
+/Samples/build/CMakeFiles
+/Samples/build/cmake_install.cmake
+/Samples/build/MinimumSmoke
+/Samples/build/CMakeCache.txt
 /venv
 # Byte-compiled / optimized / DLL files
 __pycache__/
