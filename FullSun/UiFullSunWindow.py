@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'FullSun/UiFullSunWindow.ui'
+# Form implementation generated from reading ui file 'UiFullSunWindow.ui'
 #
-# Created: Thu Jan 14 22:15:27 2016
+# Created: Sat Jan 16 12:53:05 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,6 +21,6 @@ class Ui_FullSunWindow(object):
         QtCore.QMetaObject.connectSlotsByName(FullSunWindow)
 
     def retranslateUi(self, FullSunWindow):
-        FullSunWindow.setWindowTitle(QtGui.QApplication.translate("FullSunWindow", "Полное Солнце", None, QtGui.QApplication.UnicodeUTF8))
+        FullSunWindow.setWindowTitle(QtGui.QApplication.translate("FullSunWindow", "Полное солнце - программа для редактирования машины состояния", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

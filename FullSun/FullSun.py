@@ -1,4 +1,5 @@
 # encoding: utf8
+import json
 import sys
 
 from PySide.QtCore import QPoint, Qt
@@ -37,6 +38,10 @@ class FullSunWindow(QWidget, Ui_FullSunWindow):
             work_state,
             State(name='End')]
         )
+
+        with open('StateMachine.json', 'w') as js:
+            fsm = self.state.dict()
+            json.dump(obj=fsm, fp=js, separators=(',', ':'), indent=4)
 
     def paintEvent(self, event):
         painter = QPainter(self)

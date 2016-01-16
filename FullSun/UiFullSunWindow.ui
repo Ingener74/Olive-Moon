@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Полное Солнце</string>
+   <string>Полное солнце - программа для редактирования машины состояния</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

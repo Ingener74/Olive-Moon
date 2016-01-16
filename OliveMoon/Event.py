@@ -1,5 +1,8 @@
 # encoding: utf8
+import random
+
 from PySide.QtCore import (QPoint, QSize)
+from PySide.QtGui import (QColor, QBrush, QPen)
 
 EVENT_RADIUS = 5
 
@@ -8,9 +11,13 @@ class Event(object):
     def __init__(self, name):
         self.name = name
         self.size = QSize(80, 40)
+        self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
     def draw(self, painter, point=QPoint(0, 0)):
         painter.save()
+
+        painter.setBrush(QBrush(self.background_color))
+        painter.setPen(QPen(QColor(0, 0, 0, 255)))
 
         fm = painter.fontMetrics()
 

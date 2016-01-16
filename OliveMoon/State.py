@@ -14,9 +14,10 @@ class State(object):
         self.__transitions = transitions
         self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
+        states_ = STATE_RADIUS * (len(states) + 1)
         self.size = size if len(states) == 0 else QSize(
-                reduce(lambda res, s: res + s.size.width(), states, 0) + STATE_RADIUS * (len(states) + 1),
-                reduce(lambda res, s: res + s.size.height(), states, 0) + STATE_RADIUS * (len(states) + 1)
+                reduce(lambda res, s: res + s.size.width(), states, 0) + states_,
+                reduce(lambda res, s: res + s.size.height(), states, 0) + states_
         )
 
         self.transition_point = QPoint(0, 0)
@@ -43,12 +44,9 @@ class State(object):
         x += STATE_RADIUS
         y += STATE_RADIUS
 
-        for i in self.__states:
-            i.draw(painter, QPoint(x, y))
-            y += STATE_RADIUS + i.size.height()
-
         for s in self.__states:
-            s.draw_transitions(painter=painter)
+            s.draw(painter, QPoint(x, y))
+            y += STATE_RADIUS + s.size.height()
 
         painter.restore()
 
@@ -57,3 +55,10 @@ class State(object):
             t.draw(painter, self)
         for s in self.__states:
             s.draw_transitions(painter=painter)
+
+    def dict(self):
+        return {'state': {
+            'name': self.name,
+            'states': [s.dict() for s in self.__states],
+            'transitions': []
+        }}
