@@ -1,5 +1,6 @@
 # encoding: utf8
 from PySide.QtCore import QPoint
+from PySide.QtGui import QPainterPath, QColor, QBrush
 
 
 class Transition(object):
@@ -10,15 +11,25 @@ class Transition(object):
         self.condition = condition
         self.action = action
 
-    def draw(self, painter):
+    def draw(self, painter, parent_state):
         painter.save()
 
-        painter.drawLine(self.from_state.transition_point, self.to_state.transition_point)
+        x = (parent_state.transition_point.x() + max(self.from_state.transition_point.x(),
+                                                     self.to_state.transition_point.x())) / 2
 
-        x = (self.from_state.transition_point.x() + self.to_state.transition_point.x()) / 2
-        y = (self.from_state.transition_point.y() + self.to_state.transition_point.y()) / 2
+        p1 = self.from_state.transition_point
+        p2 = QPoint(x, self.from_state.transition_point.y())
+        p3 = QPoint(x, self.to_state.transition_point.y())
+        p4 = QPoint(self.to_state.transition_point.x(), self.to_state.transition_point.y())
 
-        painter.drawLine(self.event.output_point, QPoint(x, y))
+        painter.setBrush(QBrush(QColor(0, 0, 0, 0)))
+
+        path = QPainterPath()
+        path.moveTo(p1)
+        path.cubicTo(p2, p3, p4)
+        painter.drawPath(path)
+
+        painter.drawLine(self.event.output_point, self.from_state.input_point)
 
         painter.restore()
 

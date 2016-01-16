@@ -4,6 +4,8 @@ import random
 from PySide.QtCore import (QSize, QPoint)
 from PySide.QtGui import (QColor, QBrush, QPen)
 
+STACK_OFFSET = 40
+
 STATE_RADIUS = 5
 
 
@@ -20,6 +22,7 @@ class State(object):
                 reduce(lambda res, s: res + s.size.height(), states, 0) + states_
         )
 
+        self.input_point = QPoint(0, 0)
         self.transition_point = QPoint(0, 0)
 
     def draw(self, painter, point=QPoint(0, 0)):
@@ -34,6 +37,7 @@ class State(object):
         w = self.size.width()
         h = self.size.height()
 
+        self.input_point = QPoint(x, y + h / 2)
         self.transition_point = QPoint(x + w, y + h / 2)
 
         fm = painter.fontMetrics()
@@ -41,7 +45,7 @@ class State(object):
         painter.drawRoundedRect(x, y, w, h, STATE_RADIUS, STATE_RADIUS)
         painter.drawText(x + w - fm.width(self.name) - STATE_RADIUS / 2, y + fm.height() + STATE_RADIUS / 2, self.name)
 
-        x += STATE_RADIUS
+        x += STACK_OFFSET
         y += STATE_RADIUS
 
         for s in self.__states:
@@ -49,15 +53,9 @@ class State(object):
             y += STATE_RADIUS + s.size.height()
 
         for t in self.__transitions:
-            t.draw(painter)
+            t.draw(painter, self)
 
         painter.restore()
-
-    # def draw_transitions(self, painter):
-    #     for t in self.__transitions:
-    #         t.draw(painter, self)
-    #     for s in self.__states:
-    #         s.draw_transitions(painter=painter)
 
     def dict(self):
         return {
