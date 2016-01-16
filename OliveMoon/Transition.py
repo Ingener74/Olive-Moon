@@ -1,6 +1,6 @@
 # encoding: utf8
 from PySide.QtCore import QPoint
-from PySide.QtGui import QPainterPath, QColor, QBrush
+from PySide.QtGui import QPainterPath, QColor, QBrush, QPolygon
 
 
 class Transition(object):
@@ -28,6 +28,11 @@ class Transition(object):
         path.moveTo(p1)
         path.cubicTo(p2, p3, p4)
         painter.drawPath(path)
+
+        painter.setBrush(QBrush(QColor(0, 0, 0, 255)))
+        polygon = QPolygon()
+        polygon << p4 << p4 + QPoint(12, -4) << p4 + QPoint(12, 4)
+        painter.drawConvexPolygon(polygon)
 
         painter.drawLine(self.event.output_point, self.from_state.input_point)
 
