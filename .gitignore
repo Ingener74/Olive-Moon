@@ -14,6 +14,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+/FullSun/UiFullSunWindow.ui.autosave
+/FullSun/StateMachine.json
 
 develop-eggs/
 dist/

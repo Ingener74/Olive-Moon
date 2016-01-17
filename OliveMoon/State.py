@@ -28,6 +28,10 @@ class State(object):
         self.input_point = QPoint(0, 0)
         self.transition_point = QPoint(0, 0)
 
+        self.event_in_points = []
+        self.trans_out_points = []
+        self.trans_in_points = []
+
     def draw(self, painter, point=QPoint(0, 0)):
         painter.save()
 

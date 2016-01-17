@@ -9,6 +9,11 @@ public:
     virtual void onExit();
     
     // events
+    {% for event in events %}
+    
+    {% %}
+    
+    // end events
     
     void switchState(State*);
     State* _state;

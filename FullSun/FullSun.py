@@ -8,14 +8,24 @@ from PySide.QtGui import (QApplication, QWidget, QPainter)
 from OliveMoon import (Event, State, Transition)
 from UiFullSunWindow import (Ui_FullSunWindow)
 
+
 # Icons from
 # http://findicons.com/pack/475/solar_system
+
+class DrawWidget(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+
+    def paintEvent(self, e):
+        painter = QPainter(self)
 
 
 class FullSunWindow(QWidget, Ui_FullSunWindow):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
+
+
 
         keyboard = Event('Keyboard')
         ui = Event('Ui')
