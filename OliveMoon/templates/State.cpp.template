@@ -1,3 +1,9 @@
+/*
+
+Generated file.
+Do not edit.
+
+*/
 
 #include "State.h"
 
@@ -14,6 +20,13 @@ void State::onEnter(){
 
 void State::onExit(){
 }
+
+{% for event in events %}
+void State::handle{{ event.name }} ( {{event.argument.type}} {{event.argument.name}} ){
+    if (_state)
+        _state->handle{{event.name}}({{event.argument.name}});
+}
+{% endfor %}
 
 void State::switchState(State* state){
     if(_state)

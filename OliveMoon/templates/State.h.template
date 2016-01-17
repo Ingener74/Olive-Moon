@@ -1,3 +1,10 @@
+/*
+
+Generated file.
+Do not edit.
+
+*/
+
 #pragma once
 
 class State{
@@ -10,11 +17,11 @@ public:
     
     // events
     {% for event in events %}
-    
-    {% %}
-    
+    virtual void handle{{ event.name }} ( {{ event.argument.type }} );
+    {% endfor %}
     // end events
     
+private:
     void switchState(State*);
     State* _state;
 };

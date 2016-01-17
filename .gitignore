@@ -14,6 +14,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+/BrutalMars/State.cpp
+/BrutalMars/State.h
 /FullSun/UiFullSunWindow.ui.autosave
 /FullSun/StateMachine.json
 
