@@ -36,7 +36,7 @@ if __name__ == '__main__':
     }
 
     with open('State.h', 'w') as h:
-        h.write(Template(STATE_CPP).render(data))
+        h.write(Template(STATE_H).render(data))
 
     with open('State.cpp', 'w') as cpp:
-        cpp.write(Template(STATE_H).render(data))
+        cpp.write(Template(STATE_CPP).render(data))
