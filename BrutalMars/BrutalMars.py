@@ -3,6 +3,8 @@
 import sys
 from jinja2 import Template
 
+from OliveMoon import (STATE_CPP, STATE_H)
+
 if __name__ == '__main__':
     print u'Brutal Mars - генератор кода машины состояния'
 
@@ -22,12 +24,19 @@ if __name__ == '__main__':
                         'type': 'const MouseEvent&',
                         'name': 'mouseEvent'
                     }
+                },
+                {
+                    'name': 'Ui',
+                    'argument': {
+                        'type': 'const UiEvent&',
+                        'name': 'uiEvent'
+                    }
                 }
             ]
     }
 
     with open('State.h', 'w') as h:
-        h.write(Template(open('../OliveMoon/templates/State.h.template').read()).render(data))
+        h.write(Template(STATE_CPP).render(data))
 
     with open('State.cpp', 'w') as cpp:
-        cpp.write(Template(open('../OliveMoon/templates/State.cpp.template').read()).render(data))
+        cpp.write(Template(STATE_H).render(data))
