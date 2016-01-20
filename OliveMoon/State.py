@@ -10,16 +10,20 @@ STATE_RADIUS = 5
 
 
 class State(object):
-    def __init__(self, name='Root', size=QSize(100, 80), states=[], transitions=[], on_enter='', on_exit=''):
+    def __init__(self, name='Root', size=QSize(100, 80), states=[], transitions=[], on_enter='', on_exit='',
+                 painter=None, root=False, events=[], origin=QPoint(0, 0)):
         self.name = name
-        self.__states = states
-        self.__transitions = transitions
         self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
-        states_ = STATE_RADIUS * (len(states) + 1)
+        self.__states = states
+        self.__transitions = transitions
+
+        self.origin = origin
+
+        change = STATE_RADIUS * (len(states) + 1)
         self.size = size if len(states) == 0 else QSize(
-                reduce(lambda res, s: res + s.size.width(), states, 0) + states_ + STACK_OFFSET,
-                reduce(lambda res, s: res + s.size.height(), states, 0) + states_
+                reduce(lambda res, s: res + s.size.width(), states, 0) + change + STACK_OFFSET,
+                reduce(lambda res, s: res + s.size.height(), states, 0) + change
         )
 
         self.on_enter = on_enter
@@ -27,6 +31,21 @@ class State(object):
 
         self.input_point = QPoint(0, 0)
         self.transition_point = QPoint(0, 0)
+
+        self.__root = root
+
+        # events
+        self.__events = events
+
+        # events_width = 0
+        # for e in self.__events:
+        #     width = e.width(painter)
+        #     if width > events_width:
+        #         events_width = width
+        #
+        # for e in self.__events:
+        #     e.origin = self.origin + QPoint(STATE_RADIUS * 2 + events_width, self.size / len(self.__events))
+        # events
 
         self.event_in_points = []
         self.trans_out_points = []
@@ -64,6 +83,9 @@ class State(object):
 
         painter.restore()
 
+    def paint(self, painter):
+        pass
+
     def dict(self):
         return {
             'name': self.name,
@@ -72,3 +94,12 @@ class State(object):
             'on_enter': self.on_enter,
             'on_exit': self.on_exit
         }
+
+    def generate_code(self, language, output_directory):
+        pass
+
+    def height(self):
+        if len(self.__states):
+            return reduce(lambda sum, s: sum + s.height(), self.__states) + (len(self.__states) + 1) * STATE_RADIUS
+        else:
+            return self.size.height()

@@ -10,7 +10,9 @@ EVENT_RADIUS = 5
 class Event(object):
     def __init__(self, name):
         self.name = name
+
         self.size = QSize(80, 40)
+        self.origin = QPoint(0, 0)
         self.background_color = QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255), 50)
 
         self.output_point = QPoint(0, 0)
@@ -31,3 +33,19 @@ class Event(object):
         painter.drawText(point.x() + EVENT_RADIUS, point.y() + fm.height() + EVENT_RADIUS, self.name)
 
         painter.restore()
+
+    def paint(self, painter, point):
+        painter.save()
+
+        fm = painter.fontMetrics()
+
+        painter.drawRoundedRect(point.x(), point.y(), self.size.width(), self.size.height(), EVENT_RADIUS, EVENT_RADIUS)
+        painter.drawText(point.x() + EVENT_RADIUS, point.y() + fm.height() + EVENT_RADIUS, self.name)
+
+        painter.restore()
+
+    def width(self, painter):
+        return painter.fontMetrics().width(self.name) + EVENT_RADIUS
+
+    def height(self, painter):
+        return painter.fontMetrics().height() + EVENT_RADIUS

@@ -36,6 +36,9 @@ class Transition(object):
 
         painter.restore()
 
+    def paint(self, painter):
+        pass
+
     def dict(self):
         return {
             'on_event': self.event.name,

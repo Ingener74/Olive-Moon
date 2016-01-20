@@ -1,5 +1,6 @@
 # encoding: utf8
 
+from FiniteStateMachine import FiniteStateMachine
 from Event import Event
 from State import State
 from Transition import Transition
