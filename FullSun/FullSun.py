@@ -2,8 +2,8 @@
 import json
 import sys
 
-from PySide.QtCore import QPoint, Qt
-from PySide.QtGui import (QApplication, QWidget, QPainter)
+from PySide.QtCore import QPoint, Qt, QSettings
+from PySide.QtGui import (QApplication, QWidget, QPainter, QHBoxLayout, QVBoxLayout)
 
 from OliveMoon import (Event, State, Transition, FiniteStateMachine)
 from UiFullSunWindow import (Ui_FullSunWindow)
@@ -11,19 +11,16 @@ from UiFullSunWindow import (Ui_FullSunWindow)
 
 # Icons from
 # http://findicons.com/pack/475/solar_system
+SPLITTER_2 = 'splitter2'
+SPLITTER = 'splitter'
+
+COMPANY = 'Venus.Games'
+APPNAME = 'FullSun'
+
 
 class DrawWidget(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
-
-    def paintEvent(self, e):
-        painter = QPainter(self)
-
-
-class FullSunWindow(QWidget, Ui_FullSunWindow):
-    def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
-        self.setupUi(self)
 
         keyboard = Event('Keyboard')
         ui = Event('Ui')
@@ -69,13 +66,13 @@ class FullSunWindow(QWidget, Ui_FullSunWindow):
             Transition(event=ui, from_state=initial, to_state=end)
         ], events=self.events, origin=QPoint(5, 5))
 
-        self.fsm = FiniteStateMachine(root_state=State(), events=self.events)
+        self.fsm = FiniteStateMachine(root_state=State(states=[step1, step2, step3]), events=self.events)
 
         with open('StateMachine.json', 'w') as js:
             fsm = self.state.dict()
             json.dump(obj=fsm, fp=js, separators=(',', ':'), indent=4, sort_keys=True)
 
-    def paintEvent(self, event):
+    def paintEvent(self, e):
         painter = QPainter(self)
 
         self.fsm.paint(painter=painter, point=QPoint(5, 5))
@@ -90,9 +87,28 @@ class FullSunWindow(QWidget, Ui_FullSunWindow):
         # self.state.draw(painter, QPoint(emw + 10 * 2, 10))
         # self.state.draw_transitions(painter)
 
+
+class FullSunWindow(QWidget, Ui_FullSunWindow):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.setupUi(self)
+
+        self.widget = DrawWidget()
+        self.viewVerticalLayout.addWidget(self.widget)
+
+        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+        self.restoreGeometry(self.settings.value(self.__class__.__name__))
+        self.splitter.restoreState(self.settings.value(SPLITTER))
+        self.splitter_2.restoreState(self.settings.value(SPLITTER_2))
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
+
+    def closeEvent(self, event):
+        self.settings.setValue(self.__class__.__name__, self.saveGeometry())
+        self.settings.setValue(SPLITTER, self.splitter.saveState())
+        self.settings.setValue(SPLITTER_2, self.splitter_2.saveState())
 
 
 if __name__ == '__main__':

@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>sun.png</file>
+        <file>floppy.png</file>
+        <file>folder_open.png</file>
     </qresource>
 </RCC>

@@ -23,14 +23,19 @@ class FiniteStateMachine(object):
         between_events = max_height / len(self.__events)
 
         for i, e in enumerate(self.__events):
-            e.paint(painter=painter, point=point + QPoint(0, i * between_events))
+            e.paint(painter=painter, point=point + QPoint(0,
+                                                          i * between_events +
+                                                          between_events / 2 -
+                                                          self.__events[0].height(painter) / 2))
 
         event_max_width = 0
         for e in self.__events:
             event_width = e.width(painter)
             event_max_width = event_max_width if event_width < event_max_width else event_width
 
-        self.__root_state.paint(painter, point + QPoint(event_max_width, 0))
+        BETWEEN_EVENTS_AND_ROOT_STATE = 100
+
+        self.__root_state.paint(painter, point + QPoint(event_max_width + BETWEEN_EVENTS_AND_ROOT_STATE, 0))
 
     def dict(self):
         return {

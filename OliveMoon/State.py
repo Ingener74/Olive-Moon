@@ -84,7 +84,24 @@ class State(object):
         painter.restore()
 
     def paint(self, painter, point):
-        pass
+        painter.save()
+
+        painter.setBrush(QBrush(self.background_color))
+        painter.setPen(QPen(QColor(0, 0, 0, 255)))
+        fm = painter.fontMetrics()
+        height = self.height()
+        painter.drawRoundedRect(point.x(), point.y(), height, height, STATE_RADIUS, STATE_RADIUS)
+        painter.drawText(point.x() + height - fm.width(self.name) - STATE_RADIUS / 2,
+                         point.y() + fm.height() + STATE_RADIUS / 2, self.name)
+
+        for i, s in enumerate(self.__states):
+            s.paint(painter,
+                    point +
+                    QPoint(STATE_RADIUS + 40, STATE_RADIUS) +
+                    QPoint(0, s.height()) * i +
+                    QPoint(0, STATE_RADIUS) * i)
+
+        painter.restore()
 
     def dict(self):
         return {
@@ -100,6 +117,6 @@ class State(object):
 
     def height(self):
         if len(self.__states):
-            return reduce(lambda sum, s: sum + s.height(), self.__states) + (len(self.__states) + 1) * STATE_RADIUS
+            return reduce(lambda sum, s: sum + s.height(), self.__states, 0) + (len(self.__states) + 1) * STATE_RADIUS
         else:
             return self.size.height()
