@@ -83,7 +83,7 @@ class State(object):
 
         painter.restore()
 
-    def paint(self, painter):
+    def paint(self, painter, point):
         pass
 
     def dict(self):

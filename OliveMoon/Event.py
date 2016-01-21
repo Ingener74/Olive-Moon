@@ -39,13 +39,16 @@ class Event(object):
 
         fm = painter.fontMetrics()
 
-        painter.drawRoundedRect(point.x(), point.y(), self.size.width(), self.size.height(), EVENT_RADIUS, EVENT_RADIUS)
+        painter.setBrush(QBrush(self.background_color))
+        painter.setPen(QPen(QColor(0, 0, 0, 255)))
+        painter.drawRoundedRect(point.x(), point.y(), self.width(painter), self.height(painter), EVENT_RADIUS,
+                                EVENT_RADIUS)
         painter.drawText(point.x() + EVENT_RADIUS, point.y() + fm.height() + EVENT_RADIUS, self.name)
 
         painter.restore()
 
     def width(self, painter):
-        return painter.fontMetrics().width(self.name) + EVENT_RADIUS
+        return painter.fontMetrics().width(self.name) + EVENT_RADIUS * 2
 
     def height(self, painter):
-        return painter.fontMetrics().height() + EVENT_RADIUS
+        return painter.fontMetrics().height() + EVENT_RADIUS * 2
