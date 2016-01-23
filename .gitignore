@@ -14,6 +14,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+/FullSun/FiniteStateMachine.fsm
+/Tests/IcyFlannel/test.png
+/Tests/IcyFlannel/test
 /BrutalMars/State.cpp
 /BrutalMars/State.h
 /FullSun/UiFullSunWindow.ui.autosave

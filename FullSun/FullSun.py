@@ -3,11 +3,10 @@ import json
 import sys
 
 from PySide.QtCore import QPoint, Qt, QSettings
-from PySide.QtGui import (QApplication, QWidget, QPainter, QHBoxLayout, QVBoxLayout)
+from PySide.QtGui import (QApplication, QWidget, QPainter)
 
 from OliveMoon import (Event, State, Transition, FiniteStateMachine)
 from UiFullSunWindow import (Ui_FullSunWindow)
-
 
 # Icons from
 # http://findicons.com/pack/475/solar_system
@@ -26,66 +25,21 @@ class DrawWidget(QWidget):
         ui = Event('Ui')
         network = Event('Network')
         mouse = Event('Mouse')
-        self.events = [
-            keyboard,
-            mouse,
-            ui,
-            network
-        ]
 
-        initial = State(name='Initial')
-        test = State(name='Test')
-        step1 = State(name='Step1')
-        step2 = State(name='Step2')
         step3 = State(name='Step3')
-        complex = State(name='Complex', states=[
-            step1, step2, step3
-        ], transitions=[
-            Transition(event=network, from_state=step1, to_state=step2),
-            Transition(event=network, from_state=step2, to_state=step3),
-            # Transition(event=network, from_state=step3, to_state=step1)
-        ])
-        work_state = State(name='Work', states=[
-            test,
-            complex
-        ], transitions=[
-            Transition(event=ui, from_state=test, to_state=complex, condition='e.m_type == ToComplexButton',
-                       action='complexView->doComplex();')
-        ])
-        end = State(name='End')
-        self.state = State(states=[
-            initial,
-            work_state,
-            end
-        ], transitions=[
-            Transition(event=ui, from_state=initial, to_state=initial),
-            Transition(event=keyboard, from_state=initial, to_state=work_state, condition='e.getKey() == 27',
-                       action='workView->setCaption("Test");'),
-            Transition(event=network, from_state=work_state, to_state=end, condition='e.getType() == QuitSignal',
-                       action='application->quit();'),
-            Transition(event=ui, from_state=initial, to_state=end)
-        ], events=self.events, origin=QPoint(5, 5))
+        step2 = State(name='Step2', event_transitions={keyboard: [Transition(step3)]})
+        step1 = State(name='Step1', event_transitions={ui: [step2]})
 
-        self.fsm = FiniteStateMachine(root_state=State(states=[step1, step2, step3]), events=self.events)
+        self.fsm = FiniteStateMachine(root_state=State(states=[step1, step2, step3]), events=[keyboard, ui])
 
-        with open('StateMachine.json', 'w') as js:
-            fsm = self.state.dict()
-            json.dump(obj=fsm, fp=js, separators=(',', ':'), indent=4, sort_keys=True)
+        # with open('StateMachine.json', 'w') as js:
+        #     fsm = self.state.dict()
+        #     json.dump(obj=fsm, fp=js, separators=(',', ':'), indent=4, sort_keys=True)
+
+        self.fsm.save()
 
     def paintEvent(self, e):
-        painter = QPainter(self)
-
-        self.fsm.paint(painter=painter, point=QPoint(5, 5))
-
-        # ey = 10  # event y position
-        # emw = 0  # max event width
-        # for e in self.events:
-        #     e.draw(painter=painter, point=QPoint(10, ey))
-        #     ey += e.size.height() + 10
-        #     emw = emw if e.size.width() < emw else e.size.width()
-
-        # self.state.draw(painter, QPoint(emw + 10 * 2, 10))
-        # self.state.draw_transitions(painter)
+        self.fsm.paint(QPainter(self), QPoint(5, 5))
 
 
 class FullSunWindow(QWidget, Ui_FullSunWindow):

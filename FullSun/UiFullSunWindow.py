@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'UiFullSunWindow.ui'
 #
-# Created: Thu Jan 21 16:08:56 2016
+# Created: Sat Jan 23 13:57:14 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,16 +49,17 @@ class Ui_FullSunWindow(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.listView = QtGui.QListView(self.groupBox_2)
-        self.listView.setObjectName("listView")
-        self.verticalLayout_2.addWidget(self.listView)
+        self.eventListWidget = QtGui.QListWidget(self.groupBox_2)
+        self.eventListWidget.setObjectName("eventListWidget")
+        self.verticalLayout_2.addWidget(self.eventListWidget)
         self.groupBox_3 = QtGui.QGroupBox(self.splitter)
         self.groupBox_3.setObjectName("groupBox_3")
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.groupBox_3)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.treeView = QtGui.QTreeView(self.groupBox_3)
-        self.treeView.setObjectName("treeView")
-        self.verticalLayout_3.addWidget(self.treeView)
+        self.statesTreeWidget = QtGui.QTreeWidget(self.groupBox_3)
+        self.statesTreeWidget.setObjectName("statesTreeWidget")
+        self.statesTreeWidget.headerItem().setText(0, "1")
+        self.verticalLayout_3.addWidget(self.statesTreeWidget)
         self.viewGroupBox = QtGui.QGroupBox(self.splitter_2)
         self.viewGroupBox.setObjectName("viewGroupBox")
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.viewGroupBox)

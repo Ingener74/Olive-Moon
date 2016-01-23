@@ -7,12 +7,12 @@ Do not edit.
 */
 #include "State.h"
 
-State::State(){
-    _state = new State;
+State::State(): _state(0){
 }
 
 State::~State(){
-    delete _state;
+    if(_state)
+        delete _state;
 }
 
 void State::onEnter(){
@@ -27,8 +27,10 @@ void State::handle{{ event.name }} ( {{event.argument.type}} {{event.argument.na
 }
 {% endfor %}
 void State::switchState(State* state){
-    if(_state)
+    if(_state) {
         _state->onExit();
+        delete _state;
+    }
     _state = state;
     _state->onEnter();
 }
@@ -70,7 +72,8 @@ Do not edit.
 
 #include "{{state.name}}State.h"
 
-{{state.name}}State::{{state.name}}State(){
+{{state.name}}State::{{state.name}}State() {
+    switchState(new {{state.initial.name}}({{state.initial.parameters}}));
 }
 
 {{state.name}}State::~{{state.name}}State(){
