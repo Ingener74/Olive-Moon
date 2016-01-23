@@ -12,3 +12,9 @@ class Block(object):
         painter.save()
 
         painter.restore()
+
+    def width(self):
+        return reduce(lambda res, c: res + c.width(), self.columns) if len(self.columns) else 100
+
+    def height(self):
+        return max(c.width() for c in self.columns) if len(self.columns) else 100
