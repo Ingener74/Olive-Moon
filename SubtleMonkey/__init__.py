@@ -1,2 +1,5 @@
 # encoding: utf8
-__author__ = 'pavel'
+
+from Block import Block
+from Column import Column
+from Pin import Pin
