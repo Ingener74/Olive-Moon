@@ -1,11 +1,9 @@
 import sys
 
-from PySide.QtCore import Qt, QPoint
+from PySide.QtCore import Qt, QPoint, QSettings
 from PySide.QtGui import QApplication, QWidget, QPainter, QPixmap, QIcon
 
 from SubtleMonkey import Block, Column
-
-WINDOW = 'window'
 
 
 class Window(QWidget):
@@ -14,8 +12,8 @@ class Window(QWidget):
         self.setWindowTitle('Liquid Emerald')
         self.setWindowIcon(QIcon(QPixmap('emerald.png')))
 
-        # self.settings = QSettings()
-        # self.restoreGeometry(self.settings.value(WINDOW))
+        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, 'VenusGames', 'LiquidEmerald')
+        self.restoreGeometry(self.settings.value(self.__class__.__name__))
 
         self.block = Block(
                 columns=[
@@ -33,8 +31,7 @@ class Window(QWidget):
         self.block.paint(QPainter(self), QPoint(5, 5))
 
     def closeEvent(self, event):
-        # self.settings.setValue(WINDOW, self.saveGeometry())
-        pass
+        self.settings.setValue(self.__class__.__name__, self.saveGeometry())
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
