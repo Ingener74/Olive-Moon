@@ -1,9 +1,9 @@
 import sys
 
-from PySide.QtCore import Qt, QPoint, QSettings, QSize
-from PySide.QtGui import QApplication, QWidget, QPainter, QPixmap, QIcon
+from PySide.QtCore import (Qt, QPoint, QSettings, QSize)
+from PySide.QtGui import (QApplication, QWidget, QPainter, QPixmap, QIcon)
 
-from SubtleMonkey import Block, Column
+from SubtleMonkey import Block, Column, Pin
 
 
 class Window(QWidget):
@@ -20,7 +20,10 @@ class Window(QWidget):
                     Column(width=30),
                     Column(
                             blocks=[
-                                Block(),
+                                Block(left_pins=[
+                                    Pin(),
+                                    Pin()
+                                ]),
                                 Block(columns=[
                                     Column(blocks=[
                                         Block(columns=[
@@ -29,10 +32,17 @@ class Window(QWidget):
                                                 Block(size=QSize(40, 20)),
                                                 Block()
                                             ])
+                                        ], left_pins=[
+                                            Pin(),
+                                            Pin()
+                                        ], right_pins=[
+                                            Pin()
                                         ]),
                                         Block()
                                     ]),
                                     Column()
+                                ], right_pins=[
+                                    Pin()
                                 ])
                             ]
                     ),
