@@ -1,6 +1,6 @@
 import sys
 
-from PySide.QtCore import Qt, QPoint, QSettings
+from PySide.QtCore import Qt, QPoint, QSettings, QSize
 from PySide.QtGui import QApplication, QWidget, QPainter, QPixmap, QIcon
 
 from SubtleMonkey import Block, Column
@@ -17,13 +17,28 @@ class Window(QWidget):
 
         self.block = Block(
                 columns=[
+                    Column(width=30),
                     Column(
                             blocks=[
                                 Block(),
-                                Block()
+                                Block(columns=[
+                                    Column(blocks=[
+                                        Block(columns=[
+                                            Column(width=30),
+                                            Column(blocks=[
+                                                Block(size=QSize(40, 20)),
+                                                Block()
+                                            ])
+                                        ]),
+                                        Block()
+                                    ]),
+                                    Column()
+                                ])
                             ]
                     ),
-                    Column()
+                    Column(blocks=[
+                        Block(size=QSize(30, 30))
+                    ])
                 ]
         )
 
